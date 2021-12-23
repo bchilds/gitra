@@ -1,0 +1,18 @@
+{
+  "name": "gitra",
+  "version": "1.0.0",
+  "description": "my todo list for github PRs and jira tickets",
+  "main": "index.js",
+  "author": "Benjamin T. Childs <benjamin.t.childs@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "octokit": "^1.7.1",
+    "react": "^17.0.2",
+    "react-beautiful-dnd": "^13.1.0",
+    "react-dom": "^17.0.2",
+    "webpack": "^5.65.0"
+  },
+  "devDependencies": {
+    "storybook": "^6.4.9"
+  }
+}
