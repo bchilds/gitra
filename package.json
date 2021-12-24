@@ -2,10 +2,14 @@
   "name": "gitra",
   "version": "1.0.0",
   "description": "my todo list for github PRs and jira tickets",
-  "main": "index.js",
+  "private": true,
   "author": "Benjamin T. Childs <benjamin.t.childs@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
+    "express": "^4.17.2",
     "octokit": "^1.7.1",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
@@ -13,6 +17,15 @@
     "webpack": "^5.65.0"
   },
   "devDependencies": {
-    "storybook": "^6.4.9"
+    "@babel/core": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "@babel/preset-react": "^7.16.5",
+    "babel-loader": "^8.2.3",
+    "css-loader": "^6.5.1",
+    "html-webpack-plugin": "^5.5.0",
+    "storybook": "^6.4.9",
+    "style-loader": "^3.3.1",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-middleware": "^5.3.0"
   }
 }
