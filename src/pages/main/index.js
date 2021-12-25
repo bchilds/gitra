@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import Button from '../../components/basic/button';
+import ContentBlock from '../../components/content-block';
 import { getRandomInt } from '../../helpers/math';
 
 const MainPage = () => {
@@ -9,8 +10,12 @@ const MainPage = () => {
   // const [newSectionName, setNewSectionName] = useState('');
 
   const onAddItem = useCallback(() => {
-    const name = `Item - ${getRandomInt(100, 1000)}`;
-    setItems([...items, { name }]);
+    const title = `Item - ${getRandomInt(100, 1000)}`;
+    const description = `Description - ${getRandomInt(100,1000)}`;
+    const myStatus = 'wip';
+    const githubStatus = 'open';
+    const item = { title, description, myStatus, githubStatus };
+    setItems([...items, item]);
   }, [items, setItems]);
 
   const onAddSection = useCallback(() => {
@@ -25,8 +30,8 @@ const MainPage = () => {
         <Button onClick={onAddSection}>Add Section</Button>
       </div>
       <ul>
-        {items.map(({ name }) => (
-          <li key={name}>{name}</li>
+        {items.map(({ title, description, githubStatus, myStatus }) => (
+          <ContentBlock key={title} title={title} description={description} githubStatus={githubStatus} myStatus={myStatus} />
         ))}
       </ul>
     </div>

@@ -1,8 +1,19 @@
+:root {
+  --backgroundWhite: #F8F8FF;
+  --secondaryBgWhite: #ededfa;
+  --borderRounding: 15px;
+  --borderColor: #C3C3C3;
+}
+
 body {
   width: 100%;
   height: 100%;
   margin: 0;
-  background: #f8f8ff;
+  background: var(--backgroundWhite);
+}
+
+p {
+  margin: 0
 }
 
 .app-root {
@@ -31,6 +42,36 @@ body {
   margin-right: 1rem;
 }
 /* end main page */
+
+/* content block */
+.content-block {
+  min-width: 15%;
+  max-width: 25%;
+  background: var(--secondaryBgWhite);
+  display: grid;
+  border: 1px solid var(--borderColor);
+  border-radius: var(--borderRounding);
+  padding: 1rem;
+  margin: 0.5rem 0; /* this is temporary, it will be controlled by a parent grid instead */
+}
+.content-block:first-of-type {
+  margin-top: 0;
+}
+.content-block:last-of-type {
+  margin-bottom: 0;
+}
+
+.content-block > .content-title {
+  margin-top: 0;
+}
+
+.content-block > .content-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* end content block */
 
 @media (min-width: 850px) {
   .page {
