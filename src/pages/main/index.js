@@ -11,7 +11,7 @@ const MainPage = () => {
 
   const onAddItem = useCallback(() => {
     const title = `Item - ${getRandomInt(100, 1000)}`;
-    const description = `Description - ${getRandomInt(100,1000)}`;
+    const description = `Description - ${getRandomInt(100, 1000)}`;
     const myStatus = 'wip';
     const githubStatus = 'open';
     const item = { title, description, myStatus, githubStatus };
@@ -29,11 +29,15 @@ const MainPage = () => {
         <Button onClick={onAddItem}>Add Item</Button>
         <Button onClick={onAddSection}>Add Section</Button>
       </div>
-      <ul>
-        {items.map(({ title, description, githubStatus, myStatus }) => (
-          <ContentBlock key={title} title={title} description={description} githubStatus={githubStatus} myStatus={myStatus} />
-        ))}
-      </ul>
+      {items.map(({ title, description, githubStatus, myStatus }) => (
+        <ContentBlock
+          key={title}
+          title={title}
+          description={description}
+          githubStatus={githubStatus}
+          myStatus={myStatus}
+        />
+      ))}
     </div>
   );
 };

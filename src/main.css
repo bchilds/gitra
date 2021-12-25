@@ -12,6 +12,10 @@ body {
   background: var(--backgroundWhite);
 }
 
+#root {
+  display: flex;
+}
+
 p {
   margin: 0
 }
@@ -22,7 +26,6 @@ p {
 }
 
 .page {
-  width: 100%;
   height: 100%;
   margin: 1.5rem;
 
@@ -45,8 +48,7 @@ p {
 
 /* content block */
 .content-block {
-  min-width: 15%;
-  max-width: 25%;
+  min-width: 25%;
   background: var(--secondaryBgWhite);
   display: grid;
   border: 1px solid var(--borderColor);
