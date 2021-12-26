@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import Button from '../../components/basic/button';
 import ContentBlock from '../../components/content-block';
 import { getRandomInt } from '../../helpers/math';
+import { newGuid } from '../../helpers/guid';
 
 const MainPage = () => {
   const [items, setItems] = useState([]);
@@ -14,7 +15,8 @@ const MainPage = () => {
     const description = `Description - ${getRandomInt(100, 1000)}`;
     const myStatus = 'wip';
     const githubStatus = 'open';
-    const item = { title, description, myStatus, githubStatus };
+    const id = newGuid();
+    const item = { id, title, description, myStatus, githubStatus };
     setItems([...items, item]);
   }, [items, setItems]);
 
@@ -29,9 +31,11 @@ const MainPage = () => {
         <Button onClick={onAddItem}>Add Item</Button>
         <Button onClick={onAddSection}>Add Section</Button>
       </div>
-      {items.map(({ title, description, githubStatus, myStatus }) => (
+      {items.map(({ id, title, description, githubStatus, myStatus }, index) => (
         <ContentBlock
-          key={title}
+          key={id}
+          id={id}
+          index={index}
           title={title}
           description={description}
           githubStatus={githubStatus}
