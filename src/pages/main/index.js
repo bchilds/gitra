@@ -4,16 +4,24 @@ import ContentBlock from '../../components/content-block';
 import { getRandomInt } from '../../helpers/math';
 import { newGuid } from '../../helpers/guid';
 
+const UNCATEGORIZED = 'uncategorized';
+const uncategorizedStatus ={
+  id: UNCATEGORIZED,
+  name: 'Uncategorized',
+};
+
 const MainPage = () => {
   const [items, setItems] = useState([]);
   // const [newItemName, setNewItemName] = useState('');
-  const [sections, setSections] = useState([]);
+  const [sections, setSections] = useState([uncategorizedStatus]);
   // const [newSectionName, setNewSectionName] = useState('');
+
+  // useEffect: load items and sections
 
   const onAddItem = useCallback(() => {
     const title = `Item - ${getRandomInt(100, 1000)}`;
     const description = `Description - ${getRandomInt(100, 1000)}`;
-    const myStatus = 'wip';
+    const myStatus = UNCATEGORIZED;
     const githubStatus = 'open';
     const id = newGuid();
     const item = { id, title, description, myStatus, githubStatus };
@@ -21,8 +29,10 @@ const MainPage = () => {
   }, [items, setItems]);
 
   const onAddSection = useCallback(() => {
+    const id = newGuid();
     const name = `Section - ${getRandomInt(100, 1000)}`;
-    setSections([...sections, { name }]);
+    const section = { id, name };
+    setSections([...sections, section]);
   }, [sections, setSections]);
 
   return (
