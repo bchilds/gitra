@@ -46,6 +46,14 @@ p {
 }
 /* end main page */
 
+/* Drag and Drop context block */
+.dnd-context-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* end D&D context */
+
 /* content block */
 .content-block {
   min-width: 25%;
@@ -76,7 +84,8 @@ p {
 /* end content block */
 
 @media (min-width: 850px) {
-  .page {
+  .page,
+  .dnd-context-container {
     flex-direction: row;
   }
 }

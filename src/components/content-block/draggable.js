@@ -10,7 +10,7 @@ const DraggableContentBlock = ({
   title,
   description,
   githubStatus,
-  myStatus,
+  sectionId,
 }) => {
   return (
     <Draggable key={id} draggableId={id} index={index}>
@@ -20,13 +20,11 @@ const DraggableContentBlock = ({
           provided.draggableProps.style
         */
         <ContentBlock
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
           title={title}
           description={description}
           githubStatus={githubStatus}
-          myStatus={myStatus}
+          sectionId={sectionId}
+          provided={provided}
         />
       )}
     </Draggable>
