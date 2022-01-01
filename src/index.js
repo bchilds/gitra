@@ -4,8 +4,10 @@ import LandingPage from './pages/landing';
 import './main.css';
 
 const App = () => (
-  <div className='app-root'>
-    <LandingPage />
-  </div>
+  <React.StrictMode>
+    <div className='app-root'>
+      <LandingPage />
+    </div>
+  </React.StrictMode>
 );
 ReactDOM.render(<App />, document.getElementById('root'));

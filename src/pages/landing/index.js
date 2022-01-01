@@ -28,10 +28,10 @@ const LandingPage = () => {
   // useEffect: load items and sections
 
   const replaceItemsForSection = useCallback(
-    ({ newItems, sectionId }) => {
+    ({ newItemIds, sectionId }) => {
       setSections({
         ...sections,
-        [sectionId]: { ...sections[sectionId], itemIds: newItems },
+        [sectionId]: { ...sections[sectionId], itemIds: newItemIds },
       });
     },
     [sections, setSections]
@@ -40,8 +40,10 @@ const LandingPage = () => {
   const addItemToSection = useCallback(
     ({ item, sectionId, prepend = false }) => {
       const { itemIds = [] } = sections[sectionId];
-      const newItems = prepend ? [item.id, ...itemIds] : [...itemIds, item.id];
-      replaceItemsForSection({ newItems, sectionId });
+      const newItemIds = prepend
+        ? [item.id, ...itemIds]
+        : [...itemIds, item.id];
+      replaceItemsForSection({ newItemIds, sectionId });
     },
     [sections, replaceItemsForSection]
   );
@@ -73,7 +75,7 @@ const LandingPage = () => {
   }, [sections, setSections, sectionOrder, setSectionOrder]);
 
   const onDragEnd = useCallback(
-    ({ source, destination }) => {
+    ({ draggableId, source, destination }) => {
       /*
         draggableId: "item-0"
         type: "DEFAULT"
@@ -98,19 +100,48 @@ const LandingPage = () => {
       }
 
       if (!isSameList) {
-        // implement different-list logic
+        const newStartItemIds = Array.from(
+          sections[source.droppableId].itemIds ?? []
+        );
+        newStartItemIds.splice(source.index, 1);
+        const newDestinationItemIds = Array.from(
+          sections[destination.droppableId].itemIds ?? []
+        );
+        newDestinationItemIds.splice(destination.index, 0, draggableId);
+
+        setSections({
+          ...sections,
+          [source.droppableId]: {
+            ...sections[source.droppableId],
+            itemIds: newStartItemIds,
+          },
+          [destination.droppableId]: {
+            ...sections[destination.droppableId],
+            itemIds: newDestinationItemIds,
+          },
+        });
+        setItems({
+          ...items,
+          [draggableId]: {
+            ...items[draggableId],
+            sectionId: destination.droppableId,
+          },
+        });
         return;
       }
 
       // same list
-      const newItems = reorder(
+      const newItemIds = reorder(
         sections[destination.droppableId].itemIds,
         source.index,
         destination.index
       );
-      replaceItemsForSection({ newItems, sectionId: destination.droppableId });
+      replaceItemsForSection({
+        newItemIds,
+        sectionId: destination.droppableId,
+      });
     },
-    [sections, replaceItemsForSection]
+    [items, setItems, sections, replaceItemsForSection]
   );
 
   return (
