@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import Button from '../../components/basic/button';
+import Input from '../../components/basic/input';
 import DraggableContentItem from '../../components/content-item/draggable';
 import DndContext from '../../components/react-dnd/context';
 import DroppableSection from '../../components/content-section/droppable';
@@ -18,12 +19,12 @@ const uncategorizedStatus = {
 
 const LandingPage = () => {
   const [items, setItems] = useState({});
-  // const [newItemName, setNewItemName] = useState('');
+  const [newItemName, setNewItemName] = useState('');
   const [sections, setSections] = useState({
     [UNCATEGORIZED]: uncategorizedStatus,
   });
   const [sectionOrder, setSectionOrder] = useState(Object.keys(sections));
-  // const [newSectionName, setNewSectionName] = useState('');
+  const [newSectionName, setNewSectionName] = useState('');
 
   // useEffect: load items and sections
 
@@ -48,8 +49,23 @@ const LandingPage = () => {
     [sections, replaceItemsForSection]
   );
 
+  const onNewItemNameChange = useCallback(
+    (e) => {
+      const newValue = e?.target?.value ?? '';
+      setNewItemName(newValue);
+    },
+    [setNewItemName]
+  );
+  const onNewSectionNameChange = useCallback(
+    (e) => {
+      const newValue = e?.target?.value ?? '';
+      setNewSectionName(newValue);
+    },
+    [setNewSectionName]
+  );
+
   const onAddNewItem = useCallback(() => {
-    const title = `Item - ${getRandomInt(100, 1000)}`;
+    const title = !!newItemName ? newItemName : `Item - ${getRandomInt(100, 1000)}`;
     const description = `Description - ${getRandomInt(100, 1000)}`;
     const sectionId = UNCATEGORIZED;
     const githubStatus = 'open'; // temporary
@@ -63,16 +79,18 @@ const LandingPage = () => {
     };
     setItems({ [id]: item, ...items });
     addItemToSection({ item, sectionId: UNCATEGORIZED, prepend: true });
-  }, [items, setItems, addItemToSection]);
+    setNewItemName('');
+  }, [newItemName, setNewItemName, items, setItems, addItemToSection]);
 
   const onAddSection = useCallback(() => {
     const id = newGuid();
-    const name = `Section - ${getRandomInt(100, 1000)}`;
+    const name = !!newSectionName ? newSectionName : `Section - ${getRandomInt(100, 1000)}`;
     const itemIds = [];
     const section = { id, name, itemIds };
     setSections({ ...sections, [id]: section });
     setSectionOrder([...sectionOrder, id]);
-  }, [sections, setSections, sectionOrder, setSectionOrder]);
+    setNewSectionName('');
+  }, [newSectionName, setNewSectionName, sections, setSections, sectionOrder, setSectionOrder]);
 
   const onDragEnd = useCallback(
     ({ draggableId, source, destination }) => {
@@ -147,7 +165,9 @@ const LandingPage = () => {
   return (
     <div className='page'>
       <div className='main-header'>
+        <Input value={newItemName} onChange={onNewItemNameChange} />
         <Button onClick={onAddNewItem}>Add Item</Button>
+        <Input value={newSectionName} onChange={onNewSectionNameChange} />
         <Button onClick={onAddSection}>Add Section</Button>
       </div>
       <DndContext onDragEnd={onDragEnd}>

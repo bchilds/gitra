@@ -47,7 +47,7 @@ p {
   margin: 15px auto;
 }
 
-.main-header > button {
+.main-header > button:not(:last-of-type) {
   margin-right: 1rem;
 }
 /* end main page */
