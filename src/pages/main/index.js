@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import Button from '../../components/basic/button';
-import DraggableContentBlock from '../../components/content-block/draggable';
+import DraggableContentItem from '../../components/content-item/draggable';
 import DndContext from '../../components/react-dnd/context';
 import DroppableSection from '../../components/content-section/droppable';
 import { getRandomInt } from '../../helpers/math';
@@ -103,7 +103,7 @@ const MainPage = () => {
           <DroppableSection key={section.id} section={section}>
             {items.map(
               ({ id, title, description, githubStatus, sectionId }, index) => (
-                <DraggableContentBlock
+                <DraggableContentItem
                   key={id}
                   id={id}
                   index={index}

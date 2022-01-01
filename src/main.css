@@ -1,7 +1,7 @@
 :root {
   --backgroundWhite: #F8F8FF;
   --secondaryBgWhite: #ededfa;
-  --borderRounding: 15px;
+  --borderRadius: 15px;
   --borderColor: #C3C3C3;
 }
 
@@ -38,7 +38,7 @@ p {
   display: flex;
   flex-direction: row;
   justify-items: center;
-  margin-right: auto;
+  margin: 15px auto;
 }
 
 .main-header > button {
@@ -48,34 +48,43 @@ p {
 
 /* Drag and Drop context block */
 .dnd-context-container {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-gap: 0.5rem;
 }
-
 /* end D&D context */
 
+/* content-section */
+.content-section {
+  display: grid;
+  grid-gap: 0.5rem;
+  border: 1px solid black;
+  border-radius: var(--borderRadius);
+  background: skyblue;
+  padding: 1rem;
+}
+/* end content-section */
+
 /* content block */
-.content-block {
+.content-item {
   min-width: 25%;
   background: var(--secondaryBgWhite);
   display: grid;
   border: 1px solid var(--borderColor);
-  border-radius: var(--borderRounding);
+  border-radius: var(--borderRadius);
   padding: 1rem;
-  margin: 0.5rem 0; /* this is temporary, it will be controlled by a parent grid instead */
 }
-.content-block:first-of-type {
+.content-item:first-of-type {
   margin-top: 0;
 }
-.content-block:last-of-type {
+.content-item:last-of-type {
   margin-bottom: 0;
 }
 
-.content-block > .content-title {
+.content-item > .content-title {
   margin-top: 0;
 }
 
-.content-block > .content-description {
+.content-item > .content-description {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;

@@ -3,7 +3,7 @@ import React from 'react';
 const ContentSection = (props) => {
   const { innerRef, droppableProps } = props;
   return (
-    <div ref={innerRef} {...droppableProps}>
+    <div className='content-section' ref={innerRef} {...droppableProps}>
       {props.children}
     </div>
   );

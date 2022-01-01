@@ -17,6 +17,7 @@ const DroppableSection = ({ section, children }) => {
           innerRef={provided.innerRef}
           droppableProps={provided.droppableProps}
         >
+          <h1>{section.name}</h1>
           {children}
           {provided.placeholder}
         </ContentSection>

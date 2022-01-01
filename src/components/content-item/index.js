@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ContentBlock = ({
+const ContentItem = ({
   title,
   description,
   githubStatus,
@@ -12,7 +12,7 @@ const ContentBlock = ({
       ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
-      className='content-block'
+      className='content-item'
     >
       <h5 className='content-title'>{title}</h5>
       <p className='content-description'>{description}</p>
@@ -22,4 +22,4 @@ const ContentBlock = ({
   );
 };
 
-export default ContentBlock;
+export default ContentItem;

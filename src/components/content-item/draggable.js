@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'proptypes';
 import { Draggable } from 'react-beautiful-dnd';
-import ContentBlock from './index';
-import { proptypes } from '../../prop-types/content-block.proptypes';
+import ContentItem from './index';
+import { proptypes } from '../../prop-types/content-item.proptypes';
 
-const DraggableContentBlock = ({
+const DraggableContentItem = ({
   id,
   index,
   title,
@@ -19,7 +19,7 @@ const DraggableContentBlock = ({
           snapshot.isDragging,
           provided.draggableProps.style
         */
-        <ContentBlock
+        <ContentItem
           title={title}
           description={description}
           githubStatus={githubStatus}
@@ -31,10 +31,10 @@ const DraggableContentBlock = ({
   );
 };
 
-DraggableContentBlock.propTypes = {
+DraggableContentItem.propTypes = {
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   ...proptypes,
 };
 
-export default DraggableContentBlock;
+export default DraggableContentItem;
