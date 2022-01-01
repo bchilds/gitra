@@ -12,6 +12,7 @@ const UNCATEGORIZED = 'uncategorized';
 const uncategorizedStatus = {
   id: UNCATEGORIZED,
   name: 'Uncategorized',
+  itemIds: [],
 };
 // end constants
 
@@ -26,7 +27,26 @@ const LandingPage = () => {
 
   // useEffect: load items and sections
 
-  const onAddItem = useCallback(() => {
+  const replaceItemsForSection = useCallback(
+    ({ newItems, sectionId }) => {
+      setSections({
+        ...sections,
+        [sectionId]: { ...sections[sectionId], itemIds: newItems },
+      });
+    },
+    [sections, setSections]
+  );
+
+  const addItemToSection = useCallback(
+    ({ item, sectionId, prepend = false }) => {
+      const { itemIds = [] } = sections[sectionId];
+      const newItems = prepend ? [item.id, ...itemIds] : [...itemIds, item.id];
+      replaceItemsForSection({ newItems, sectionId });
+    },
+    [sections, replaceItemsForSection]
+  );
+
+  const onAddNewItem = useCallback(() => {
     const title = `Item - ${getRandomInt(100, 1000)}`;
     const description = `Description - ${getRandomInt(100, 1000)}`;
     const sectionId = UNCATEGORIZED;
@@ -39,17 +59,15 @@ const LandingPage = () => {
       sectionId,
       githubStatus,
     };
-    const existingUncategorizedItems = items[UNCATEGORIZED] ?? [];
-    setItems({
-      ...items,
-      [UNCATEGORIZED]: [item, ...existingUncategorizedItems],
-    });
-  }, [items, setItems]);
+    setItems({ [id]: item, ...items });
+    addItemToSection({ item, sectionId: UNCATEGORIZED, prepend: true });
+  }, [items, setItems, addItemToSection]);
 
   const onAddSection = useCallback(() => {
     const id = newGuid();
     const name = `Section - ${getRandomInt(100, 1000)}`;
-    const section = { id, name };
+    const itemIds = [];
+    const section = { id, name, itemIds };
     setSections({ ...sections, [id]: section });
     setSectionOrder([...sectionOrder, id]);
   }, [sections, setSections, sectionOrder, setSectionOrder]);
@@ -86,27 +104,27 @@ const LandingPage = () => {
 
       // same list
       const newItems = reorder(
-        items[destination.droppableId],
+        sections[destination.droppableId].itemIds,
         source.index,
         destination.index
       );
-
-      setItems({ ...items, [destination.droppableId]: newItems });
+      replaceItemsForSection({ newItems, sectionId: destination.droppableId });
     },
-    [items, setItems]
+    [sections, replaceItemsForSection]
   );
 
   return (
     <div className='page'>
       <div className='main-header'>
-        <Button onClick={onAddItem}>Add Item</Button>
+        <Button onClick={onAddNewItem}>Add Item</Button>
         <Button onClick={onAddSection}>Add Section</Button>
       </div>
       <DndContext onDragEnd={onDragEnd}>
         {sectionOrder.map((sectionId) => (
           <DroppableSection key={sectionId} section={sections[sectionId]}>
-            {items[sectionId]?.map(
-              ({ id, title, description, githubStatus }, index) => (
+            {sections[sectionId].itemIds?.map((itemId, index) => {
+              const { id, title, description, githubStatus } = items[itemId];
+              return (
                 <DraggableContentItem
                   key={id}
                   id={id}
@@ -116,8 +134,8 @@ const LandingPage = () => {
                   githubStatus={githubStatus}
                   sectionId={sectionId}
                 />
-              )
-            )}
+              );
+            })}
           </DroppableSection>
         ))}
       </DndContext>
