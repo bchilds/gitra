@@ -5,6 +5,7 @@ import DndContext from '../../components/react-dnd/context';
 import DroppableSection from '../../components/content-section/droppable';
 import { getRandomInt } from '../../helpers/math';
 import { newGuid } from '../../helpers/guid';
+import { reorder } from '../../helpers/reorder';
 
 // constants
 const UNCATEGORIZED = 'uncategorized';
@@ -14,23 +15,13 @@ const uncategorizedStatus = {
 };
 // end constants
 
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  if (endIndex) {
-    result.splice(endIndex, 0, removed);
-  }
-
-  return result;
-};
-
 const MainPage = () => {
   const [items, setItems] = useState([]);
   // const [newItemName, setNewItemName] = useState('');
-  const [sections, setSections] = useState([uncategorizedStatus]);
-  const [sectionOrder, setSectionOrder] = useState(
-    sections.map(({ id }) => id)
-  );
+  const [sections, setSections] = useState({
+    UNCATEGORIZED: uncategorizedStatus,
+  });
+  const [sectionOrder, setSectionOrder] = useState(Object.keys(sections));
   // const [newSectionName, setNewSectionName] = useState('');
 
   // useEffect: load items and sections
@@ -41,7 +32,6 @@ const MainPage = () => {
     const sectionId = UNCATEGORIZED;
     const githubStatus = 'open'; // temporary
     const id = newGuid();
-    // this section _should_ always exist
     const item = {
       id,
       title,
@@ -56,13 +46,11 @@ const MainPage = () => {
     const id = newGuid();
     const name = `Section - ${getRandomInt(100, 1000)}`;
     const section = { id, name };
-    setSections([...sections, section]);
+    setSections({ ...sections, [id]: section });
   }, [sections, setSections]);
 
   const onDragEnd = useCallback(
     (result) => {
-      // this needs some more logic for multilist, need to look at example for ez implementation
-
       /*
         draggableId: "item-0"
         type: "DEFAULT"
@@ -77,7 +65,16 @@ const MainPage = () => {
         reason: "DROP"
       */
       // dropped outside the list
-      if (!result.destination) {
+      const noDestination = !result.destination;
+      const isSameList = source.droppabelId === destination.droppableId;
+      const isSameIndex = source.index === destination.index;
+      const isSameSpot = isSameList && isSameIndex;
+
+      if (noDestination || isSameSpot) {
+        return;
+      }
+
+      if (!isSameList) {
         return;
       }
 
@@ -99,21 +96,19 @@ const MainPage = () => {
         <Button onClick={onAddSection}>Add Section</Button>
       </div>
       <DndContext onDragEnd={onDragEnd}>
-        {sections.map((section) => (
-          <DroppableSection key={section.id} section={section}>
-            {items.map(
-              ({ id, title, description, githubStatus, sectionId }, index) => (
-                <DraggableContentItem
-                  key={id}
-                  id={id}
-                  index={index}
-                  title={title}
-                  description={description}
-                  githubStatus={githubStatus}
-                  sectionId={sectionId}
-                />
-              )
-            )}
+        {sectionOrder.map((sectionId) => (
+          <DroppableSection key={sectionId} section={sections[sectionId]}>
+            {items.map(({ id, title, description, githubStatus }, index) => (
+              <DraggableContentItem
+                key={id}
+                id={id}
+                index={index}
+                title={title}
+                description={description}
+                githubStatus={githubStatus}
+                sectionId={sectionId}
+              />
+            ))}
           </DroppableSection>
         ))}
       </DndContext>
