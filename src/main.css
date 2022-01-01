@@ -71,6 +71,21 @@ p {
 /* end D&D context */
 
 /* content-section */
+.section-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.section-item-count {
+  background: var(--secondaryBgWhite);
+  height: 1.5em;
+  width: 1.5em;
+  display: flex;
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
 .content-section {
   display: grid;
   grid-gap: 0.5rem;

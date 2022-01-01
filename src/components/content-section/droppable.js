@@ -17,7 +17,10 @@ const DroppableSection = ({ section, children }) => {
           innerRef={provided.innerRef}
           droppableProps={provided.droppableProps}
         >
-          <h1>{section.name}</h1>
+          <h1 className='section-title-wrapper'>
+            {section.name}
+            <div className='section-item-count'>{children.length ?? 0}</div>
+          </h1>
           {children}
           {provided.placeholder}
         </ContentSection>
