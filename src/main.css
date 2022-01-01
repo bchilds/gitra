@@ -5,6 +5,10 @@
   --borderColor: #c3c3c3;
 }
 
+html {
+  font-size: 12px;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -23,6 +27,13 @@ body {
 p {
   margin: 0;
 }
+
+/* COMPONENTS */
+.input-styles,
+.button-styles {
+  font-size: inherit;
+}
+/* END COMPONENTS */
 
 .app-root {
   display: flex;
@@ -99,6 +110,10 @@ p {
 /* end content block */
 
 @media (min-width: 850px) {
+  html {
+    font-size: 14px;
+  }
+
   .page,
   .dnd-context-container {
     flex-direction: row;
