@@ -15,11 +15,11 @@ const uncategorizedStatus = {
 };
 // end constants
 
-const MainPage = () => {
-  const [items, setItems] = useState([]);
+const LandingPage = () => {
+  const [items, setItems] = useState({});
   // const [newItemName, setNewItemName] = useState('');
   const [sections, setSections] = useState({
-    UNCATEGORIZED: uncategorizedStatus,
+    [UNCATEGORIZED]: uncategorizedStatus,
   });
   const [sectionOrder, setSectionOrder] = useState(Object.keys(sections));
   // const [newSectionName, setNewSectionName] = useState('');
@@ -39,7 +39,11 @@ const MainPage = () => {
       sectionId,
       githubStatus,
     };
-    setItems([...items, item]);
+    const existingUncategorizedItems = items[UNCATEGORIZED] ?? [];
+    setItems({
+      ...items,
+      [UNCATEGORIZED]: [item, ...existingUncategorizedItems],
+    });
   }, [items, setItems]);
 
   const onAddSection = useCallback(() => {
@@ -47,10 +51,11 @@ const MainPage = () => {
     const name = `Section - ${getRandomInt(100, 1000)}`;
     const section = { id, name };
     setSections({ ...sections, [id]: section });
-  }, [sections, setSections]);
+    setSectionOrder([...sectionOrder, id]);
+  }, [sections, setSections, sectionOrder, setSectionOrder]);
 
   const onDragEnd = useCallback(
-    (result) => {
+    ({ source, destination }) => {
       /*
         draggableId: "item-0"
         type: "DEFAULT"
@@ -64,9 +69,9 @@ const MainPage = () => {
         combine: null
         reason: "DROP"
       */
-      // dropped outside the list
-      const noDestination = !result.destination;
-      const isSameList = source.droppabelId === destination.droppableId;
+
+      const noDestination = !destination;
+      const isSameList = source.droppableId === destination.droppableId;
       const isSameIndex = source.index === destination.index;
       const isSameSpot = isSameList && isSameIndex;
 
@@ -75,16 +80,18 @@ const MainPage = () => {
       }
 
       if (!isSameList) {
+        // implement different-list logic
         return;
       }
 
+      // same list
       const newItems = reorder(
-        items,
-        result.source.index,
-        result.destination.index
+        items[destination.droppableId],
+        source.index,
+        destination.index
       );
 
-      setItems(newItems);
+      setItems({ ...items, [destination.droppableId]: newItems });
     },
     [items, setItems]
   );
@@ -98,17 +105,19 @@ const MainPage = () => {
       <DndContext onDragEnd={onDragEnd}>
         {sectionOrder.map((sectionId) => (
           <DroppableSection key={sectionId} section={sections[sectionId]}>
-            {items.map(({ id, title, description, githubStatus }, index) => (
-              <DraggableContentItem
-                key={id}
-                id={id}
-                index={index}
-                title={title}
-                description={description}
-                githubStatus={githubStatus}
-                sectionId={sectionId}
-              />
-            ))}
+            {items[sectionId]?.map(
+              ({ id, title, description, githubStatus }, index) => (
+                <DraggableContentItem
+                  key={id}
+                  id={id}
+                  index={index}
+                  title={title}
+                  description={description}
+                  githubStatus={githubStatus}
+                  sectionId={sectionId}
+                />
+              )
+            )}
           </DroppableSection>
         ))}
       </DndContext>
@@ -116,4 +125,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default LandingPage;

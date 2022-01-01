@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MainPage from './pages/main';
+import LandingPage from './pages/landing';
 import './main.css';
 
 const App = () => (
   <div className='app-root'>
-    <MainPage />
+    <LandingPage />
   </div>
 );
 ReactDOM.render(<App />, document.getElementById('root'));
