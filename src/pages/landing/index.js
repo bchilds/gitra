@@ -7,7 +7,7 @@ import DroppableSection from '../../components/content-section/droppable';
 import { getRandomInt } from '../../helpers/math';
 import { newGuid } from '../../helpers/guid';
 import { reorder } from '../../helpers/reorder';
-require('../../helpers/octokit');
+import { useModal } from '../../hooks/use-modal';
 
 // constants
 const UNCATEGORIZED = 'uncategorized';
