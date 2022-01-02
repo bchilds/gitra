@@ -65,33 +65,48 @@ const LandingPage = () => {
     [setNewSectionName]
   );
 
-  const onAddNewItem = useCallback(() => {
-    const title = !!newItemName ? newItemName : `Item - ${getRandomInt(100, 1000)}`;
-    const description = `Description - ${getRandomInt(100, 1000)}`;
-    const sectionId = UNCATEGORIZED;
-    const githubStatus = 'open'; // temporary
-    const id = newGuid();
-    const item = {
-      id,
-      title,
-      description,
-      sectionId,
-      githubStatus,
-    };
-    setItems({ [id]: item, ...items });
-    addItemToSection({ item, sectionId: UNCATEGORIZED, prepend: true });
-    setNewItemName('');
-  }, [newItemName, setNewItemName, items, setItems, addItemToSection]);
+  const onAddNewItem = useCallback(
+    ({ prNumber }) => {
+      const title = !!newItemName
+        ? newItemName
+        : `Item - ${getRandomInt(100, 1000)}`;
+      const description = `Description - ${getRandomInt(100, 1000)}`;
+      const sectionId = UNCATEGORIZED;
+      const githubStatus = 'none';
+      const id = newGuid();
+      const item = {
+        id,
+        title,
+        description,
+        sectionId,
+        githubStatus,
+        prNumber,
+      };
+      setItems({ [id]: item, ...items });
+      addItemToSection({ item, sectionId: UNCATEGORIZED, prepend: true });
+      setNewItemName('');
+    },
+    [newItemName, setNewItemName, items, setItems, addItemToSection]
+  );
 
   const onAddSection = useCallback(() => {
     const id = newGuid();
-    const name = !!newSectionName ? newSectionName : `Section - ${getRandomInt(100, 1000)}`;
+    const name = !!newSectionName
+      ? newSectionName
+      : `Section - ${getRandomInt(100, 1000)}`;
     const itemIds = [];
     const section = { id, name, itemIds };
     setSections({ ...sections, [id]: section });
     setSectionOrder([...sectionOrder, id]);
     setNewSectionName('');
-  }, [newSectionName, setNewSectionName, sections, setSections, sectionOrder, setSectionOrder]);
+  }, [
+    newSectionName,
+    setNewSectionName,
+    sections,
+    setSections,
+    sectionOrder,
+    setSectionOrder,
+  ]);
 
   const onDragEnd = useCallback(
     ({ draggableId, source, destination }) => {
