@@ -2,8 +2,8 @@ import React from 'react';
 import Button from '../button';
 import { createPortal } from 'react-dom';
 
-const Modal = ({ isVisible, hideModal, title, children }) => {
-  return isVisible
+const Modal = ({ isOpen, hideModal, title, children }) => {
+  return isOpen
     ? createPortal(
         <React.Fragment>
           <div className='modal-overlay' />
@@ -17,11 +17,13 @@ const Modal = ({ isVisible, hideModal, title, children }) => {
             <div className='modal-body'>
               <div className='modal-header'>
                 <h5 className='modal-title'>{title}</h5>
-                {children}
               </div>
-              <Button className='modal-close' onClick={hideModal}>
-                Close
-              </Button>
+              <div className='modal-content'>{children}</div>
+              <div className='modal-footer'>
+                <Button className='modal-close' onClick={hideModal}>
+                  Close
+                </Button>
+              </div>
             </div>
           </div>
         </React.Fragment>,

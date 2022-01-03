@@ -7,7 +7,8 @@ import DroppableSection from '../../components/content-section/droppable';
 import { getRandomInt } from '../../helpers/math';
 import { newGuid } from '../../helpers/guid';
 import { reorder } from '../../helpers/reorder';
-import { useModal } from '../../hooks/use-modal';
+import useModal from '../../hooks/use-modal';
+import SelectPrModal from './select-pr-modal';
 
 // constants
 const UNCATEGORIZED = 'uncategorized';
@@ -26,6 +27,12 @@ const LandingPage = () => {
   });
   const [sectionOrder, setSectionOrder] = useState(Object.keys(sections));
   const [newSectionName, setNewSectionName] = useState('');
+  const { isOpen, toggleModal } = useModal();
+  const openModal = useCallback(() => {
+    if (!isOpen) {
+      toggleModal();
+    }
+  }, [isOpen, toggleModal]);
 
   // useEffect: load items and sections
 
@@ -181,8 +188,8 @@ const LandingPage = () => {
   return (
     <div className='page'>
       <div className='main-header'>
-        <Input value={newItemName} onChange={onNewItemNameChange} />
-        <Button onClick={onAddNewItem}>Add Item</Button>
+        {/* <Input value={newItemName} onChange={onNewItemNameChange} /> */}
+        <Button onClick={openModal}>Add Item</Button>
         <Input value={newSectionName} onChange={onNewSectionNameChange} />
         <Button onClick={onAddSection}>Add Section</Button>
       </div>
@@ -206,6 +213,7 @@ const LandingPage = () => {
           </DroppableSection>
         ))}
       </DndContext>
+      <SelectPrModal isOpen={isOpen} toggleModal={toggleModal} />
     </div>
   );
 };

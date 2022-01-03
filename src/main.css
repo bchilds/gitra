@@ -53,6 +53,7 @@ p {
   overflow-x: hidden;
   overflow-y: auto;
   position: fixed;
+  font-size: initial;
   top: 25%;
   width: 100%;
   z-index: 1000;
@@ -61,16 +62,18 @@ p {
 .modal-body {
   align-items: center;
   background: white;
-  border-radius: 0.25rem;
+  border-radius: 0.4rem;
   display: flex;
   flex-direction: column;
   margin: 1.875rem;
+  min-width: 250px;
   max-width: 500px;
   position: relative;
   z-index: 100;
 }
 
 .modal-header {
+  width: 100%;
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -78,7 +81,22 @@ p {
 }
 
 .modal-title {
-  margin-bottom: 0.3125rem;
+  margin: 0;
+}
+
+.modal-content {
+  padding: 1.5rem 0.75rem;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-footer {
+  border-top: 1px solid var(--borderColor);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
 }
 /* END COMPONENTS */
 
