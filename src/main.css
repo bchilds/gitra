@@ -28,6 +28,10 @@ p {
   margin: 0;
 }
 
+input::placeholder {
+  opacity: 0.75;
+}
+
 /* COMPONENTS */
 .input-styles,
 .button-styles {
@@ -78,6 +82,7 @@ p {
   display: flex;
   flex-direction: column;
   padding: 1.875rem 0.9375rem 1.875rem 0.9375rem;
+  border-bottom: 1px solid var(--borderColor);
 }
 
 .modal-title {
@@ -85,9 +90,12 @@ p {
 }
 
 .modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   padding: 1.5rem 0.75rem;
   width: 100%;
-  text-align: center;
 }
 
 .modal-footer {

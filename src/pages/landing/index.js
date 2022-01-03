@@ -21,7 +21,6 @@ const uncategorizedStatus = {
 
 const LandingPage = () => {
   const [items, setItems] = useState({});
-  const [newItemName, setNewItemName] = useState('');
   const [sections, setSections] = useState({
     [UNCATEGORIZED]: uncategorizedStatus,
   });
@@ -57,13 +56,6 @@ const LandingPage = () => {
     [sections, replaceItemsForSection]
   );
 
-  const onNewItemNameChange = useCallback(
-    (e) => {
-      const newValue = e?.target?.value ?? '';
-      setNewItemName(newValue);
-    },
-    [setNewItemName]
-  );
   const onNewSectionNameChange = useCallback(
     (e) => {
       const newValue = e?.target?.value ?? '';
@@ -73,7 +65,7 @@ const LandingPage = () => {
   );
 
   const onAddNewItem = useCallback(
-    ({ prNumber }) => {
+    ({ prNumber, newItemName }) => {
       const title = !!newItemName
         ? newItemName
         : `Item - ${getRandomInt(100, 1000)}`;
@@ -91,9 +83,8 @@ const LandingPage = () => {
       };
       setItems({ [id]: item, ...items });
       addItemToSection({ item, sectionId: UNCATEGORIZED, prepend: true });
-      setNewItemName('');
     },
-    [newItemName, setNewItemName, items, setItems, addItemToSection]
+    [items, setItems, addItemToSection]
   );
 
   const onAddSection = useCallback(() => {
@@ -188,7 +179,6 @@ const LandingPage = () => {
   return (
     <div className='page'>
       <div className='main-header'>
-        {/* <Input value={newItemName} onChange={onNewItemNameChange} /> */}
         <Button onClick={openModal}>Add Item</Button>
         <Input value={newSectionName} onChange={onNewSectionNameChange} />
         <Button onClick={onAddSection}>Add Section</Button>
@@ -213,7 +203,11 @@ const LandingPage = () => {
           </DroppableSection>
         ))}
       </DndContext>
-      <SelectPrModal isOpen={isOpen} toggleModal={toggleModal} />
+      <SelectPrModal
+        isOpen={isOpen}
+        toggleModal={toggleModal}
+        onAddNewItem={onAddNewItem}
+      />
     </div>
   );
 };
