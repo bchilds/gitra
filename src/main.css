@@ -197,6 +197,15 @@ input::placeholder {
 }
 /* end content block */
 
+/* pr table block */
+.pr-table-header {
+  width: 100%;
+  padding: 0.5rem;
+  display: flex;
+  justify-content:space-between;
+}
+/* end pr table block */
+
 @media (min-width: 850px) {
   html {
     font-size: 14px;
