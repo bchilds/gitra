@@ -1,7 +1,12 @@
 import React from 'react';
 
-const Dropdown = ({ children, onOptionSelect, label }) => {
-  const selectComponent = <select onChange={onOptionSelect}>{children}</select>;
+const Dropdown = ({ children, selectedValue, onChange, label, name }) => {
+  const selectComponent = (
+    <select name={name} value={selectedValue} onChange={onChange}>
+      <option value=''>None</option>
+      {children}
+    </select>
+  );
   return label ? (
     <label>
       {label}
