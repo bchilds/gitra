@@ -200,10 +200,59 @@ input::placeholder {
 /* pr table block */
 .pr-table-header {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.75rem 0.5rem;
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
 }
+
+.pr-table-body {
+  width: 100%;
+}
+
+.pr-table-empty,
+.pr-table-body-border {
+  border: 1px solid var(--borderColor);
+  border-radius: var(--borderRadius);
+}
+
+.pr-table-empty {
+  text-align: center;
+  padding: 15px 5px;
+}
+
+.pr-table-row {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: inherit;
+  cursor: pointer;
+}
+
+.pr-table-row:hover {
+  background: var(--secondaryBgWhite);
+}
+
+.pr-table-row-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.pr-table-row-content > h4 {
+  margin: 0;
+  padding-bottom: 5px;
+}
+.pr-table-row-content > a {
+margin-right: auto;
+}
+.pr-table-row-content > a:hover {
+  color: limegreen;
+}
+
+.pr-table-row-action {
+  max-width: 15%;
+  text-align: center;
+}
+
 /* end pr table block */
 
 @media (min-width: 850px) {

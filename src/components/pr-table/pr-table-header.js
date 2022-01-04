@@ -5,6 +5,7 @@ import Input from '../../components/basic/input';
 import Button from '../../components/basic/button';
 import Dropdown from '../../components/basic/dropdown';
 import { getPrFromRepoByNumber } from '../../helpers/octokit';
+import { emptyArray } from '../../prop-types/empty';
 
 const PrTableHeader = ({ performSearch, setPrResults }) => {
   // repoSelection
@@ -38,6 +39,7 @@ const PrTableHeader = ({ performSearch, setPrResults }) => {
       setPrResults && setPrResults([result]);
     } catch (err) {
       console.log('An error occurred searching for PRs: ', err);
+      setPrResults && setPrResults(emptyArray);
     }
   }, [selectedRepo, searchValue, performSearch]);
 

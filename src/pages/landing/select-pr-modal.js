@@ -7,7 +7,8 @@ import PrTableBody from '../../components/pr-table/pr-table-body';
 import { emptyArray } from '../../prop-types/empty';
 
 const SelectPrModal = ({ isOpen, toggleModal, onAddNewItem }) => {
-  const foundPrs = useAsyncSafeState(emptyArray);
+  const [foundPrs, setFoundPrs] = useAsyncSafeState(emptyArray);
+  const [showEmptyState, setShowEmptyState] = useAsyncSafeState(false);
   const [newItemName, setNewItemName] = useState('');
   const onNewItemNameChange = useCallback(
     (e) => {
@@ -15,6 +16,14 @@ const SelectPrModal = ({ isOpen, toggleModal, onAddNewItem }) => {
       setNewItemName(newValue);
     },
     [setNewItemName]
+  );
+
+  const _setFoundPrs = useCallback(
+    (results) => {
+      setShowEmptyState(true);
+      setFoundPrs(results);
+    },
+    [setShowEmptyState, setFoundPrs]
   );
 
   const _onAddNewItem = useCallback(
@@ -38,7 +47,8 @@ const SelectPrModal = ({ isOpen, toggleModal, onAddNewItem }) => {
         onChange={onNewItemNameChange}
         placeholder='New Item Name...'
       />
-      <PrTableHeader performSearch={() => {}} />
+      <PrTableHeader performSearch={() => {}} setPrResults={_setFoundPrs} />
+      <PrTableBody pullRequests={foundPrs} showEmptyState={showEmptyState} />
     </Modal>
   );
 };
