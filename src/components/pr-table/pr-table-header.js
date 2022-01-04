@@ -6,7 +6,7 @@ import Button from '../../components/basic/button';
 import Dropdown from '../../components/basic/dropdown';
 import { getPrFromRepoByNumber } from '../../helpers/octokit';
 
-const PrTableHeader = ({ performSearch }) => {
+const PrTableHeader = ({ performSearch, setPrResults }) => {
   // repoSelection
   const [selectedRepo, setSelectedRepo] = useState('');
   const _setSelectedRepo = useCallback(
@@ -28,12 +28,17 @@ const PrTableHeader = ({ performSearch }) => {
 
     // todo: debounce(performSearch(searchValue));
     console.log(`searching "${searchValue}"`);
-    const result = await getPrFromRepoByNumber({
-      owner: 'shipstation',
-      repo: selectedRepo,
-      pull_number: searchValue,
-    });
-    console.log('RESULT: ', result);
+    try {
+      const result = await getPrFromRepoByNumber({
+        owner: 'shipstation',
+        repo: selectedRepo,
+        pull_number: searchValue,
+      });
+      console.log('RESULT: ', result);
+      setPrResults && setPrResults([result]);
+    } catch (err) {
+      console.log('An error occurred searching for PRs: ', err);
+    }
   }, [selectedRepo, searchValue, performSearch]);
 
   return (
