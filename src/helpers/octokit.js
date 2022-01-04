@@ -7,6 +7,7 @@ const auth = process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN;
 const octokit = new Octokit({ auth });
 
 export const getPrFromRepoByNumber = async ({ owner, repo, pull_number }) => {
+  console.log(`Querying GH for PR details: `, { owner, repo, pull_number });
   try {
     const prData = await octokit.rest.pulls.get({
       owner,

@@ -4,20 +4,9 @@ import useTextInput from '../../hooks/use-text-input';
 import Input from '../../components/basic/input';
 import Button from '../../components/basic/button';
 import Dropdown from '../../components/basic/dropdown';
+import { getPrFromRepoByNumber } from '../../helpers/octokit';
 
 const PrTableHeader = ({ performSearch }) => {
-  const [searchValue, setSearchValue] = useState('');
-  const _setSearchValue = useTextInput(setSearchValue);
-  const _performSearch = useCallback(() => {
-    if (!searchValue) {
-      console.warn('no value provided, error state on input');
-      return;
-    }
-
-    // todo: debounce(performSearch(searchValue));
-    console.log(`searching "${searchValue}"`);
-  }, [searchValue, performSearch]);
-
   // repoSelection
   const [selectedRepo, setSelectedRepo] = useState('');
   const _setSelectedRepo = useCallback(
@@ -27,6 +16,25 @@ const PrTableHeader = ({ performSearch }) => {
     },
     [selectedRepo, setSelectedRepo]
   );
+
+  // pr search
+  const [searchValue, setSearchValue] = useState('');
+  const _setSearchValue = useTextInput(setSearchValue);
+  const _performSearch = useCallback(async () => {
+    if (!searchValue) {
+      console.warn('no value provided, error state on input');
+      return;
+    }
+
+    // todo: debounce(performSearch(searchValue));
+    console.log(`searching "${searchValue}"`);
+    const result = await getPrFromRepoByNumber({
+      owner: 'shipstation',
+      repo: selectedRepo,
+      pull_number: searchValue,
+    });
+    console.log('RESULT: ', result);
+  }, [selectedRepo, searchValue, performSearch]);
 
   return (
     <div className='pr-table-header'>
@@ -44,6 +52,7 @@ const PrTableHeader = ({ performSearch }) => {
         value={searchValue}
         placeholder='PR Number'
         onChange={_setSearchValue}
+        type='number'
       />
       <Button onClick={_performSearch}>Search</Button>
     </div>
